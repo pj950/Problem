@@ -2,30 +2,484 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+
+
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-body">
+                    <a style="color:red;font-size:16px;">
+                        重要问题规则:1.下次汇报日期超期 2.问题发生日期超两个月未关闭 3.风险等级高
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">问题列表</h3>
+                            @*<a href="javascript:void(0);">View Report</a>*@
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="toolbar" class="btn-group">
+                            <button id="btn_edit" type="button" class="btn btn-default" onclick="Edit()">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改信息
+                            </button>
+                            @if (ViewBag.usertype == "admin")
+                            {
+
+                                <button id="btn_delete" type="button" class="btn btn-default" onclick="Close('@Url.Action("Close")')">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭问题
+                                </button>
+                            }
+                            </div>
+                        <form id="form">
+                            <table id="MTable" class="text-nowrap"></table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">月度统计</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="container" style="width: 550px; height: 400px; margin: 0 auto"></div>
+                    </div>
+                </div>
+                <!-- /.card -->
+
+                <!-- /.card -->
+            </div>
+            <!-- /.col-md-6 -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">折线图</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="container2" style="width: 550px; height: 400px; margin: 0 auto"></div>
+                    </div>
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col-md-6 -->
+        </div>*@
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">修改</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="hidden" name="pId" class="form-control" id="pId" >
+                </div>
+                <div class="form-group">
+                    <label>原因简述:</label>
+                    <textarea class="form-control" rows="2" id="Reason"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>措施简述:</label>
+                    <textarea class="form-control" rows="2" id="Measure"></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" onclick="EditSubmit()">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>保存
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>取消
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+<script>
+
+    function Edit() {
+        var row = $.map($("#MTable").bootstrapTable('getSelections'), function (row) {
+            return row;
+        });
+        //$('#EditModal').modal();
+        if (row.length > 1) {
+            alert("只能选择一项数据！");
+        }
+        else if (row.length == 1) {
+            $('#EditModal').modal();
+        }
+        else {
+            alert("请选择要修改的对象");
+            return false;
+        }
+        
+        $("#Reason").val(row[0].Reason);
+        $("#Measure").val(row[0].Measure);
+        $("#pId").val(row[0].ProId);
+
+    }
+    function RefreshData() {
+        $.ajax({
+            type: "GET",
+            url: "/Home/DangerData",
+            dataType: "json",
+            success: function (msg) {
+                $("#UserTable").bootstrapTable('load', msg);
+            },
+            error: function () {
+                alert("错误");
+            }
+        });
+    }
+
+    function EditSubmit() {
+        if ($('#Reason').val() == "") {
+            alert("原因简述不能为空")
+            return false;
+        }
+        if ($('#Measure').val() == "") {
+            alert("措施简述不能为空")
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/Edit",
+            data: {
+                "Measure": $.trim($('#Measure').val()), "Reason": $.trim($('#Reason').val()),
+                "ProId": $.trim($("#pId").val(row[0].ProId))
+            },
+            success: function (data) {
+                result = $.parseJSON(data);
+                if (result.success == true) {
+                    $('#EditModal').modal('hide');
+                    RefreshData();
+                }
+                else {
+                    alert(result.errorMsg);
+                }
+            }
+        });
+    }
+
+    $(function () {
+        $("#MTable").bootstrapTable({    //'destroy' 是必须要加的==作用是加载服务器数据，初始化表格的内容Destroy the bootstrap table.
+            // method: 'get',
+            url: "/Home/DangerData",
+            //contentType: "application/x-www-form-urlencoded",
+            toolbar: '#toolbar', //工具按钮用哪个容器
+            pagination: true, //是否显示分页（*）
+            striped: true,//隔行换色
+            sidePagination: 'client',//分页方式
+            //pageNumber: 1,//初始化table时显示的页码
+            //pageSize: 20,//每页条目
+            //sortable: true,//排序
+            //silent: true,
+            search: true,//启用搜索
+            //showColumns: true,//是否显示 内容列下拉框
+            showRefresh: true,//显示刷新按钮
+            clickToSelect: true,//点击选中checkbox
+            singleSelect: true,//启用单行选中
+            //onRefresh: function () {
+            //    RefreshData();
+            //},
+            rowStyle: function (row, index) {
+                //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+                var strclass = "";
+                if (row.Count >= 3 && row.Type == "A") {
+                    strclass = 'danger';
+                }
+                else if (row.Count >= 3 && row.Type == "B") {
+                    strclass = 'warning';
+                }
+                else {
+                    ;
+                }
+                return { classes: strclass }
+            },
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'OccurredTime',
+                title: '发生时间',
+                formatter: CovertToDate
+            }, {
+                field: 'Week',
+                title: '周'
+            }, {
+                field: 'ComplaintsType',
+                title: '投诉类型',
+                //formatter: TypeFormatter
+            }, {
+                field: 'Customer',
+                title: '客户',
+            }, {
+                field: 'Model',
+                title: '车型',
+            }, {
+                field: 'CusPartNum',
+                title: '客户零件号',
+            }, {
+                field: 'InPartNum',
+                title: '内部零件号',
+            }, {
+                field: 'Factory',
+                title: '工厂',
+            }, {
+                field: 'ProductType',
+                title: '产品种类',
+            }, {
+                field: 'DefectNum',
+                title: '缺陷数',
+            }, {
+                field: 'SpecialEffects',
+                title: '特殊影响',
+            }, {
+                field: 'RiskLevel',
+                title: '风险等级',
+            }, {
+                field: 'RiskAssessment',
+                title: '风险评估',
+            }, {
+                field: 'DefectLevel',
+                title: '缺陷等级',
+            }, {
+                field: 'DescribePro',
+                title: '问题描述',
+            }, {
+                field: 'Reason',
+                title: '原因',
+            }, {
+                field: 'Measure',
+                title: '措施',
+            }, {
+                field: 'Responsible_Department',
+                title: '责任部门',
+            }, {
+                field: 'Responsible_Person',
+                title: '责任人',
+            }, {
+                field: 'ReportTime',
+                title: '汇报时间',
+                formatter: CovertToDate
+            }]
+
+        });
+
+    });
+
+    function CovertToDate(unittime) {
+        unittime = unittime.replace("/Date(", "").replace(")/", "");
+        var time = unittime.substr(0, unittime.length - 3);
+
+        time = time * 1000;
+        var jsDate = new Date(time);
+        var UnixTimeToDate = jsDate.getFullYear() + '-' + (jsDate.getMonth() + 1) + '-' + jsDate.getDate();
+        //+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+        return UnixTimeToDate;
+    }
+
+    function CovertToDateOnly(unittime) {
+        if (unittime == null) {
+            return null;
+        }
+        unittime = unittime.replace("/Date(", "").replace(")/", "");
+        var time = unittime.substr(0, unittime.length - 3);
+
+        time = time * 1000;
+        var jsDate = new Date(time);
+        var UnixTimeToDate = jsDate.getFullYear() + '-' + (jsDate.getMonth() + 1) + '-' + jsDate.getDate();
+        //+ ' ' + jsDate.getHours() + ':' + jsDate.getMinutes() + ':' + jsDate.getSeconds();
+        return UnixTimeToDate;
+    }
+
+    //$(document).ready(function () {
+    //    var chart = {
+    //        type: 'column'
+    //    };
+    //    var title = {
+    //        text: '月度柱形图'
+    //    };
+    //    var xAxis = {
+    //        categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+    //    };
+    //    var yAxis = {
+    //        min: 5,
+    //        title: {
+    //            text: '质量问题汇总'
+    //        }
+    //    };
+    //    var tooltip = {
+    //        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+    //        shared: true
+    //    };
+    //    var plotOptions = {
+    //        column: {
+    //            stacking: 'percent'
+    //        }
+    //    };
+    //    var credits = {
+    //        enabled: false
+    //    };
+    //    var series = [{
+    //        name: 'John',
+    //        data: [5, 3, 4, 7, 2, null, null, null, null, null, null, null]
+    //    }, {
+    //        name: 'Jane',
+    //            data: [2, 2, 3, 2, 1, null, null, null, null, null, null, null]
+    //    }, {
+    //        name: 'Joe',
+    //            data: [3, 4, 4, 2, 5, null, null, null, null, null, null, null]
+    //    }];
+
+    //    var json = {};
+    //    json.chart = chart;
+    //    json.title = title;
+    //    json.xAxis = xAxis;
+    //    json.yAxis = yAxis;
+    //    json.tooltip = tooltip;
+    //    json.plotOptions = plotOptions;
+    //    json.credits = credits;
+    //    json.series = series;
+    //    $('#container').highcharts(json);
+
+    //});
+
+    @*$(document).ready(function () {
+        var myChart = echarts.init(document.getElementById('container2'));
+
+        // 指定图表的配置项和数据
+        option = {
+            xAxis: {
+                type: 'category',
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [@Html.Raw(ViewBag.line)],
+                type: 'line'
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    });*@
+
+    @*$(document).ready(function () {
+        var myChart = echarts.init(document.getElementById('container'));
+
+        // 指定图表的配置项和数据
+        option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        legend: {
+            data: ['SW', 'SB', 'AB']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: 'SW',
+                type: 'bar',
+                data: [@Html.Raw(ViewBag.SWdata)]
+            },
+            {
+                name: 'SB',
+                type: 'bar',
+                data: [@Html.Raw(ViewBag.SBdata)]
+            },
+            {
+                name: 'AB',
+                type: 'bar',
+                data: [@Html.Raw(ViewBag.ABdata)]
+            }
+        ]
+    };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    });*@
+
+
+    
+
+
+    function Close(url) {
+        var row = $.map($("#MTable").bootstrapTable('getSelections'), function (row) {
+            return row;
+        });
+
+        if (row.length == 1) {
+            ;
+        }
+        else if (row.length > 1) {
+            alert("只能选择一项数据！");
+        }
+        else {
+            alert("请选择要修改的对象");
+            return false;
+        }
+
+        if (row) {
+            bootbox.confirm("确认关闭吗？", function (r) {
+                if (r) {
+                    $.post(url, { id: row[0].ProId }, function (result) {
+                        result = $.parseJSON(result);
+                        if (result.success == true) {
+                            //RefreshData();
+                        } else {
+                            $.messager.show({
+                                title: "关闭失败",
+                                msg: result.errorMsg
+                            });
+                        }
+                    }, "json");
+                }
+            })
+        }
+    }
+</script>

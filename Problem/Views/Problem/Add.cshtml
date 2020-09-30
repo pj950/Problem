@@ -1,0 +1,436 @@
+﻿
+@{
+
+}
+
+
+<script src="~/Scripts/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href="~/Content/bootstrap-datetimepicker.min.css">
+<body>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">质量问题录入</h3>
+        </div>
+
+        <form role="form">
+            <div class="row">
+                <div class="col-sm-6">
+                    <!-- text input -->
+                    <div class="form-group">
+                        <label>发生日期</label>
+                        <div class="input-append date" id="datetimepicker" data-date-format="yyyy-MM-dd" data-link-field="dtp_Start_input">
+                            <input type="text" id="OccurredTime" name="OccurredTime" class="form-control">
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                        <input type="hidden" id="dtp_Start_input" value="" /><br />
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label>投诉类型</label>
+                            <select class="form-control" id="ComplaintsType">
+                                <option selected></option>
+                                <option>零公里-一般问题</option>
+                                <option>零公里-audit</option>
+                                <option>零公里- RC</option>
+                                <option>零公里- PRR</option>
+                                <option>零公里- CS1</option>
+                                <option>零公里- CS2</option>
+                                <option>售后-一般问题</option>
+                                <option>售后-重点问题</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>客户</label>
+                        <select class="form-control" id="Customer">
+                            <option selected></option>
+                            <option>SAIC-总部</option>
+                            <option>SAIC-临港</option>
+                            <option>SAIC-南京</option>
+                            <option>SAIC-郑州</option>
+                            <option>SAIC-宁德</option>
+                            <option>SVW-总部</option>
+                            <option>SVW-安亭I</option>
+                            <option>SVW-安亭II</option>
+                            <option>SVW-安亭III</option>
+                            <option>SVW-总部</option>
+                            <option>SVW-南京</option>
+                            <option>SVW-仪征</option>
+                            <option>SVW-长沙</option>
+                            <option>SVW-宁波</option>
+                            <option>SGM-上海</option>
+                            <option>SGM-沈阳</option>
+                            <option>SGM-烟台</option>
+                            <option>SGM-武汉</option>
+                            <option>SGM-韩国</option>
+                            <option>SGM-巴西</option>
+                            <option>SGM-墨西哥</option>
+                            <option>SGMW-广西</option>
+                            <option>SGMW-重庆</option>
+                            <option>SGMW-青岛</option>
+                            <option>SGMW-印度</option>
+                            <option>MAXUS-南京</option>
+                            <option>MAXUS-无锡</option>
+                            <option>安道拓</option>
+                            <option>弗吉亚</option>
+                            <option>天成</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <!-- text input -->
+                    <label>车型</label>
+                    <input type="text" class="form-control" id="Model">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>客户零件号</label>
+                        <input type="text" class="form-control" id="CusPartNum">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>内部零件号</label>
+                    <input type="text" class="form-control" id="InPartNum">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>工厂</label>
+                        <select class="form-control" id="Factory">
+                            <option selected></option>
+                            <option>AB</option>
+                            <option>SB</option>
+                            <option>SW</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>产品种类</label>
+                    <select class="form-control" id="ProductType">
+                        <option></option>
+                        <option>前排左侧安全带</option>
+                        <option>前排右侧安全带</option>
+                        <option>后排左侧安全带</option>
+                        <option>后排右侧安全带</option>
+                        <option>后排中间安全带</option>
+                        <option>第二排左侧安全带（7座及以上）</option>
+                        <option>第二排中间侧安全带（7座及以上）</option>
+                        <option>第二排右侧安全带（7座及以上）</option>
+                        <option>第三排左侧安全带（7座及以上）</option>
+                        <option>第三排中间侧安全带（7座及以上）</option>
+                        <option>第三排右侧安全带（7座及以上）</option>
+                        <option>前排左侧插锁</option>
+                        <option>前排右侧插锁</option>
+                        <option>后排左侧插锁</option>
+                        <option>后排中间插锁</option>
+                        <option>后排右侧插锁</option>
+                        <option>第二排左侧插锁（7座及以上）</option>
+                        <option>第二排中间侧插锁（7座及以上）</option>
+                        <option>第二排右侧插锁（7座及以上）</option>
+                        <option>第三排左侧插锁（7座及以上）</option>
+                        <option>第三排中间侧插锁（7座及以上）</option>
+                        <option>第三排右侧插锁（7座及以上）</option>
+                        <option>DAB</option>
+                        <option>PAB</option>
+                        <option>CAB</option>
+                        <option>KAB</option>
+                        <option>SW-PU</option>
+                        <option>SW-真皮</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>缺陷数量</label>
+                        <select class="form-control" id="DefectNum">
+                            <option selected></option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>批量</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>特殊影响</label>
+                    <select class="form-control" id="SpecialEffects">
+                        <option selected></option>
+                        <option>安全特性</option>
+                        <option>法律法规</option>
+                        <option>其他</option>
+                        <option>NA</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>风险等级</label>
+                        <select class="form-control" id="RiskLevel">
+                            <option selected></option>
+                            <option>低</option>
+                            <option>中</option>
+                            <option>高</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>风险评估简述</label>
+                    <textarea class="form-control" rows="2" id="RiskAssessment"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>缺陷等级</label>
+                        <select class="form-control" id="DefectLevel">
+                            <option selected></option>
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>问题描述</label>
+                    <textarea class="form-control" rows="2" id="DescribePro"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>原因简述</label>
+                        <textarea class="form-control" rows="2" id="Reason"></textarea>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>措施简述</label>
+                    <textarea class="form-control" rows="2" id="Measure"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>责任部门</label>
+                        <select class="form-control" id="Responsible_Department">
+                            <option selected></option>
+                            <option>AB</option>
+                            <option>SB</option>
+                            <option>SW</option>
+                            <option>PCL</option>
+                            <option>TC</option>
+                            <option>SQE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>责任人</label>
+                    <input type="text" class="form-control" id="Responsible_Person">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>下次汇报时间</label>
+                    <div class="input-append date" id="datetimepicker2" data-date-format="yyyy-MM-dd" data-link-field="dtp_Start_input">
+                        <input type="text" id="ReportTime" name="ReportTime" class="form-control">
+                        <span class="add-on"><i class="icon-th"></i></span>
+                    </div>
+                    <input type="hidden" id="dtp_Start_input" value="" /><br />
+                </div>
+                <div class="col-sm-6">
+                    <input type="hidden" class="form-control" id="pId" value="@Html.Raw(ViewBag.NewID)">
+                </div>
+                <input type="hidden" class="form-control" id="token" value="@Html.Raw(ViewBag.token)">
+            </div>
+
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary" onclick="AddSubmit()">提交</button>
+            </div>
+        </form>
+
+    </div>
+</body>
+
+
+@Html.Raw(ViewBag.Msg)
+
+<script>
+    $('#datetimepicker').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        minView: 2,
+    });
+
+    $('#datetimepicker2').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        minView: 2,
+    });
+
+    function AddSubmit() {
+        var OccurredTime = $('#OccurredTime').val();
+        if (OccurredTime == "") {
+            alert("发生日期不为空");
+            return false;
+        }
+        var ComplaintsType = $('#ComplaintsType').val();
+        if (ComplaintsType == "") {
+            alert("投诉类型不为空");
+            return false;
+        }
+
+        var Customer = $('#Customer').val();
+        if (Customer == "") {
+            alert("客户不为空");
+            return false;
+        }
+        var Model = $('#Model').val();
+        if (Model == "") {
+            alert("车型不为空");
+            return false;
+        }
+
+        var CusPartNum = $('#CusPartNum').val();
+        if (CusPartNum == "") {
+            alert("客户零件号不为空");
+            return false;
+        }
+        var InPartNum = $('#InPartNum').val();
+        if (InPartNum == "") {
+            alert("内部零件号不为空");
+            return false;
+        }
+
+        var Factory = $('#Factory').val();
+        if (Factory == "") {
+            alert("工厂不为空");
+            return false;
+        }
+        var ProductType = $('#ProductType').val();
+        if (ProductType == "") {
+            alert("产品种类不为空");
+            return false;
+        }
+
+        var DefectNum = $('#DefectNum').val();
+        if (DefectNum == "") {
+            alert("缺陷数量不为空");
+            return false;
+        }
+        var SpecialEffects = $('#SpecialEffects').val();
+        if (SpecialEffects == "") {
+            alert("特殊影响不为空");
+            return false;
+        }
+
+        var RiskLevel = $('#RiskLevel').val();
+        if (RiskLevel == "") {
+            alert("风险等级不为空");
+            return false;
+        }
+        var RiskAssessment = $('#RiskAssessment').val();
+        if (RiskAssessment == "") {
+            alert("风险评估简述不为空");
+            return false;
+        }
+
+        var DefectLevel = $('#DefectLevel').val();
+        if (DefectLevel == "") {
+            alert("缺陷等级不为空");
+            return false;
+        }
+        var DescribePro = $('#DescribePro').val();
+        if (DescribePro == "") {
+            alert("问题描述不为空");
+            return false;
+        }
+
+        var Reason = $('#Reason').val();
+        //if (Reason == "") {
+        //    alert("原因简述不为空");
+        //    return false;
+        //}
+        var Measure = $('#Measure').val();
+        //if (Measure == "") {
+        //    alert("措施简述不为空");
+        //    return false;
+        //}
+
+        var Responsible_Department = $('#Responsible_Department').val();
+        if (Responsible_Department == "") {
+            alert("责任部门不为空");
+            return false;
+        }
+        var Responsible_Person = $('#Responsible_Person').val();
+        if (Responsible_Person == "") {
+            alert("责任人不为空");
+            return false;
+        }
+
+        var ReportTime = $('#ReportTime').val();
+        if (ReportTime == "") {
+            alert("下次汇报时间不为空");
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Problem/AddProblem",
+            data: {
+                "OccurredTime": OccurredTime, "ComplaintsType": ComplaintsType, "Customer": Customer, "Model": Model,
+                "CusPartNum": CusPartNum, "InPartNum": InPartNum, "Factory": Factory, "ProductType": ProductType,
+                "DefectNum": DefectNum, "SpecialEffects": SpecialEffects, "RiskLevel": RiskLevel, "RiskAssessment": RiskAssessment,
+                "DefectLevel": DefectLevel, "DescribePro": DescribePro, "Reason": Reason, "Measure": Measure,
+                "Responsible_Department": Responsible_Department, "Responsible_Person": Responsible_Person, "ReportTime": ReportTime,
+                "pId": $('#pId').val(), "token": $('#token').val()
+            },
+            success: function (data) {
+                result = $.parseJSON(data);
+                if (result.success == true) {
+                    alert("添加成功");
+                }
+                else {
+                    alert(result.errorMsg);
+                }
+            }
+        });
+    }
+
+</script>
+
